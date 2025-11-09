@@ -1,0 +1,36 @@
+From 97e935ec80d2a159b33a955d3fe9e94e187a6fd6 Mon Sep 17 00:00:00 2001
+From: Moon <64157802+signalno11@users.noreply.github.com>
+Date: Sun, 9 Nov 2025 16:23:44 -0600
+Subject: [PATCH] Add patch
+
+---
+ chromium.spec | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/chromium.spec b/chromium.spec
+index f5c2236..af427da 100644
+--- a/chromium.spec
++++ b/chromium.spec
+@@ -464,6 +464,9 @@ Patch511: 0002-Fix-Missing-OPENSSL_NO_ENGINE-Guard.patch
+ # 1387 |         typename iterator::AssumeValid(data(), data(), data() + size())));
+ Patch1000: chromium-142-missing-include-for-form_field_data.patch
+ 
++# Janktastic patch
++Patch2000: HACK-Remove-weird-libinput-touchbad-behavior.patch
++
+ # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
+ # http://build.chromium.org/buildbot/official/
+ # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
+@@ -1122,6 +1125,9 @@ Qt6 UI for chromium.
+ # Upstream patches
+ %patch -P1000 -p1 -b .missing-include-for-form_field_data.patch
+ 
++# Janktastic patch
++%patch -P2000 -p1 -b .HACK-Remove-weird-libinput-touchbad-behavior.patch
++
+ # Change shebang in all relevant files in this directory and all subdirectories
+ # See `man find` for how the `-exec command {} +` syntax works
+ find -type f \( -iname "*.py" \) -exec sed -i '1s=^#! */usr/bin/\(python\|env python\)[23]\?=#!%{chromium_pybin}=' {} +
+-- 
+2.51.1
+
