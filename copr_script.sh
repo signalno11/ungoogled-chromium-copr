@@ -7,6 +7,9 @@ cd ungoogled-chromium-copr
 # Download chromium-%{version}-clean.tar.xz from the Fedora's server
 rpkg --path ./chromium sources
 
+# Add libinput patch to patches list
+patch -d ./chromium -p1 < patch.patch
+
 # Patch the spec file to build with the ungoogled-chromium patches
 patch -d ./chromium -p1 < modify.patch
 
@@ -15,6 +18,3 @@ patch -d ./chromium -p1 < rename.patch
 
 # Move all the source files into the parent directory for the COPR build system to find them
 mv ./chromium/* ../
-
-# Add libinput patch to patches list
-patch -d ./chromium -p1 < patch.patch
