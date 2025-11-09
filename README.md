@@ -1,3 +1,5 @@
+This fork is just here to provide a fix for the strange libinput behavior with touchpads. It will break other input methods, probably. pre-Chromium 109 behavior essentially.
+
 This repository provides the prerequisites to build [Ungoogled Chromium](https://github.com/Eloston/ungoogled-chromium) on [COPR](https://copr.fedorainfracloud.org/) for Fedora. It uses the [Chromium](https://src.fedoraproject.org/rpms/chromium) package from the Fedora Project as its base.
 
 To build your own ungoogled-chromium for e.g. Fedora 39:
