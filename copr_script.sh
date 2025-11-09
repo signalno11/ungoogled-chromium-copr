@@ -13,5 +13,8 @@ patch -d ./chromium -p1 < modify.patch
 # Rename files that are called chromium-browser to ungoogled-chromium to avoid name clashes
 patch -d ./chromium -p1 < rename.patch
 
+# Add libinput patch to patches list
+patch -d ./chromium -p1 < patch.patch
+
 # Move all the source files into the parent directory for the COPR build system to find them
 mv ./chromium/* ../
