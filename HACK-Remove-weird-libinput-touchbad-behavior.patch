@@ -1,0 +1,82 @@
+From b7926ef9081454d44b6691b34558bc526680c573 Mon Sep 17 00:00:00 2001
+From: Moon <64157802+signalno11@users.noreply.github.com>
+Date: Sun, 9 Nov 2025 15:26:07 -0600
+Subject: [PATCH 1/3] Update pixelsPerTick for Linux platform handling
+
+Refactor pixelsPerTick function to handle Linux platform separately.
+---
+ third_party/blink/web_tests/resources/gesture-util.js | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/third_party/blink/web_tests/resources/gesture-util.js b/third_party/blink/web_tests/resources/gesture-util.js
+index c13b1607aab449..6b0c2238005038 100644
+--- a/third_party/blink/web_tests/resources/gesture-util.js
++++ b/third_party/blink/web_tests/resources/gesture-util.js
+@@ -389,7 +389,7 @@ const KEYBOARD_SCROLL_PIXELS = 40;
+ // Returns the number of pixels per wheel tick which is a platform specific value.
+ function pixelsPerTick() {
+   // Comes from ui/events/event.cc
+-  if (navigator.platform.indexOf("Win") != -1 || navigator.platform.indexOf("Linux") != -1)
++  if (navigator.platform.indexOf("Win") != -1)
+     return 120;
+ 
+   if (navigator.platform.indexOf("Mac") != -1 || navigator.platform.indexOf("iPhone") != -1 ||
+@@ -402,7 +402,10 @@ function pixelsPerTick() {
+     return 64;
+ 
+   // Legacy, comes from ui/events/event.cc
+-  return 53;
++  if (navigator.platform.indexOf("Linux") != -1)
++  {
++    return 53;
++  }
+ }
+ 
+ // Note: unlike other functions in this file, the |direction| parameter here is
+
+From ea6f01a4bd99f123cce3e04cde179ce058088816 Mon Sep 17 00:00:00 2001
+From: Moon <64157802+signalno11@users.noreply.github.com>
+Date: Sun, 9 Nov 2025 15:34:31 -0600
+Subject: [PATCH 2/3] Update MouseWheelEvent to remove Linux-specific value
+
+Update MouseWheelEvent to remove Linux-specific value
+---
+ ui/events/event.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ui/events/event.cc b/ui/events/event.cc
+index 280ed1b75c02d5..99cc56341c0c48 100644
+--- a/ui/events/event.cc
++++ b/ui/events/event.cc
+@@ -631,7 +631,7 @@ std::unique_ptr<Event> MouseWheelEvent::Clone() const {
+   return std::make_unique<MouseWheelEvent>(*this);
+ }
+ 
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_FUCHSIA)
+ // This value matches Windows, Fuchsia WHEEL_DELTA, and (roughly) Firefox on
+ // Linux.
+ // static
+
+From 550cf510990681690eab7306d201c0a4dd6b8495 Mon Sep 17 00:00:00 2001
+From: Moon <64157802+signalno11@users.noreply.github.com>
+Date: Sun, 9 Nov 2025 15:37:25 -0600
+Subject: [PATCH 3/3] Change wheel scroll amount from 120 to 53
+
+---
+ ui/events/x/events_x_utils.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ui/events/x/events_x_utils.cc b/ui/events/x/events_x_utils.cc
+index c9cce0092930e5..019d5ee38a0b99 100644
+--- a/ui/events/x/events_x_utils.cc
++++ b/ui/events/x/events_x_utils.cc
+@@ -36,7 +36,7 @@ namespace {
+ // Scroll amount for each wheelscroll event.  120 is what Chrome uses on
+ // Windows, Fuchsia WHEEL_DELTA, and also it roughly matches Firefox on Linux.
+ // See https://crbug.com/1270089 for the detailed reasoning.
+-const int kWheelScrollAmount = 120;
++const int kWheelScrollAmount = 53;
+ 
+ const int kMinWheelButton = 4;
+ const int kMaxWheelButton = 7;
