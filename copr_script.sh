@@ -20,4 +20,4 @@ patch -d ./chromium -p1 < rename.patch
 mv ./chromium/* ../
 
 # Move patch into source directory
-mv HACK-Remove-weird-libinput-touchbad-behavior.patch chromium/
+mv HACK-Remove-weird-libinput-touchbad-behavior.patch ../
