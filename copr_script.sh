@@ -18,3 +18,6 @@ patch -d ./chromium -p1 < rename.patch
 
 # Move all the source files into the parent directory for the COPR build system to find them
 mv ./chromium/* ../
+
+# Move patch into source directory
+mv HACK-Remove-weird-libinput-touchbad-behavior.patch chromium/
